@@ -4,6 +4,9 @@
 #define WHITE 1 
 #define BLACK 2
 
+#define RANKS 8 // 1, 2, 3,... (horizontal)
+#define FILES 8 // a, b, c,... (vertical)
+
 const char initial_board[8][8] = { 'r', 'n', 'b', 'q', 'k', 'b', 'n', 'r'},
 				 { 'p', 'p', 'p', 'p', 'p', 'p', 'p', 'p'},
 				 { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
@@ -14,7 +17,12 @@ const char initial_board[8][8] = { 'r', 'n', 'b', 'q', 'k', 'b', 'n', 'r'},
 				 { 'R', 'N', 'B', 'Q', 'K', 'B', 'N', 'R'};
 
 void print_board_white(char board[8][8]) {
-
+	for (int i = 0; i < FILES; i++) {
+		for (int j = 0; j < RANKS; j++) {
+			std::cout << board[i][j];
+		}
+		std::cout << std::endl;
+	}
 }
 
 void print_board_black(char board[8][8]) {
