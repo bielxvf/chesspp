@@ -1,28 +1,38 @@
 #include <iostream>
 #include <cxxopts.hpp>
 
-#define WHITE 1 
-#define BLACK 2
+#define WHITE 0
+#define BLACK 1
 
-#define RANKS 8 // 1, 2, 3,... (horizontal)
-#define FILES 8 // a, b, c,... (vertical)
+#define DIM 8
 
-const char initial_board[8][8] = { 'r', 'n', 'b', 'q', 'k', 'b', 'n', 'r'},
-				 { 'p', 'p', 'p', 'p', 'p', 'p', 'p', 'p'},
-				 { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-				 { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-				 { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-				 { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-				 { 'P', 'P', 'P', 'P', 'P', 'P', 'P', 'P'},
-				 { 'R', 'N', 'B', 'Q', 'K', 'B', 'N', 'R'};
+const char initial_board[8][8] = {{ 'r', 'n', 'b', 'q', 'k', 'b', 'n', 'r'},
+				  { 'p', 'p', 'p', 'p', 'p', 'p', 'p', 'p'},
+				  { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+				  { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+				  { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+				  { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+				  { 'P', 'P', 'P', 'P', 'P', 'P', 'P', 'P'},
+				  { 'R', 'N', 'B', 'Q', 'K', 'B', 'N', 'R'}};
+
+void copy_board(const char from[8][8], char to[8][8]) {
+	for (int i = 0; i < DIM; i++) {
+		for (int j = 0; j < DIM; j++) {
+			to[i][j] = from[i][j];
+		}
+	}
+}
 
 void print_board_white(char board[8][8]) {
-	for (int i = 0; i < FILES; i++) {
-		for (int j = 0; j < RANKS; j++) {
-			std::cout << board[i][j];
+	for (int i = 0; i < DIM; i++) {
+		std::cout << DIM-i << " | ";
+		for (int j = 0; j < DIM; j++) {
+			std::cout << board[i][j] << " ";
 		}
 		std::cout << std::endl;
 	}
+	std::cout << "    - - - - - - - -" << std::endl;
+	std::cout << "    a b c d e f g h" << std::endl;
 }
 
 void print_board_black(char board[8][8]) {
@@ -43,9 +53,11 @@ void print_board(char board[8][8], int color) {
 }
 
 void new_game(void) {
-	std::cout << "Choose your color: ";
+	char board[8][8];
+	int color;
+	std::cout << "Choose your color (0 - White, 1 - Black): ";
 	std::cin >> color;
-	char board[8][8] = initial_board;
+	copy_board(initial_board, board);
 	print_board(board, color);
 }
 
