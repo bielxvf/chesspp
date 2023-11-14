@@ -1,21 +1,35 @@
 #include <iostream>
 #include <cxxopts.hpp>
+#include <cstdio>
 
 #define WHITE 0
 #define BLACK 1
 
 #define DIM 8
 
-const char initial_board[8][8] = {{ 'r', 'n', 'b', 'q', 'k', 'b', 'n', 'r'},
-				  { 'p', 'p', 'p', 'p', 'p', 'p', 'p', 'p'},
-				  { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-				  { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-				  { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-				  { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-				  { 'P', 'P', 'P', 'P', 'P', 'P', 'P', 'P'},
-				  { 'R', 'N', 'B', 'Q', 'K', 'B', 'N', 'R'}};
+struct Square {
+	int file;
+	int rank;
+}
 
-void copy_board(const char from[8][8], char to[8][8]) {
+const std::string initial_board[8][8] = {{ "♜", "♞", "♝", "♛", "♚", "♝", "♞", "♜"},
+					  { "♟︎", "♟︎", "♟︎", "♟︎", "♟︎", "♟︎", "♟︎", "♟︎"},
+					  { " ", " ", " ", " ", " ", " ", " ", " "},
+					  { " ", " ", " ", " ", " ", " ", " ", " "},
+					  { " ", " ", " ", " ", " ", " ", " ", " "},
+					  { " ", " ", " ", " ", " ", " ", " ", " "},
+					  { "♙", "♙", "♙", "♙", "♙", "♙", "♙", "♙"},
+					  { "♖", "♘", "♗", "♕", "♔", "♗", "♘", "♖"}};
+
+void make_move(std::string board[8][8]) {
+	Square from;
+	Square to;
+	std::cin >> from.file >> from.rank;
+	std::cin >> to.file >> to.rank;
+	// move the piece on from to to
+}
+
+void copy_board(const std::string from[8][8], std::string to[8][8]) {
 	for (int i = 0; i < DIM; i++) {
 		for (int j = 0; j < DIM; j++) {
 			to[i][j] = from[i][j];
@@ -23,23 +37,32 @@ void copy_board(const char from[8][8], char to[8][8]) {
 	}
 }
 
-void print_board_white(char board[8][8]) {
+void print_board_white(std::string board[8][8]) {
 	for (int i = 0; i < DIM; i++) {
+		printf("\033[30;47m");
 		std::cout << DIM-i << " | ";
 		for (int j = 0; j < DIM; j++) {
 			std::cout << board[i][j] << " ";
 		}
+		printf("\033[0m");
 		std::cout << std::endl;
 	}
-	std::cout << "    - - - - - - - -" << std::endl;
-	std::cout << "    a b c d e f g h" << std::endl;
+	printf("\033[30;47m");
+	std::cout << "   ―――――――――――――――― ";
+	printf("\033[0m");
+	std::cout << std::endl;
+
+	printf("\033[30;47m");
+	std::cout << "    a b c d e f g h ";
+	printf("\033[0m");
+	std::cout << std::endl;
 }
 
-void print_board_black(char board[8][8]) {
+void print_board_black(std::string board[8][8]) {
 
 }
 
-void print_board(char board[8][8], int color) {
+void print_board(std::string board[8][8], int color) {
 	switch (color) {
 		case WHITE:
 			print_board_white(board);
@@ -53,12 +76,20 @@ void print_board(char board[8][8], int color) {
 }
 
 void new_game(void) {
-	char board[8][8];
+	std::string board[8][8];
 	int color;
+	bool white_wins = false;
+	bool black_wins = false;
+
 	std::cout << "Choose your color (0 - White, 1 - Black): ";
 	std::cin >> color;
+
 	copy_board(initial_board, board);
-	print_board(board, color);
+
+	do {
+		print_board(board, color);
+		make_move(board);
+	} while (!white_wins && !black_wins);
 }
 
 int main(int argc, char** argv) {
