@@ -4,14 +4,14 @@
 
 struct {
 	const int None = 0;
-	
+
 	const int WKing = 1;
 	const int WQueen = 2;
 	const int WRook = 3;
 	const int WBishop = 4;
 	const int WKnight = 5;
 	const int WPawn = 6;
-	
+
 	const int BKing = -WKing;
 	const int BQueen = -WQueen;
 	const int BRook = -WRook;
